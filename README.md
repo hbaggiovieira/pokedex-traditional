@@ -21,9 +21,7 @@ with equivalent code but opposite architectural approaches.
 | **Compressed context** | The agent receives intent, map and invariants declaratively | **The agent must infer everything by exploring the code** |
 
 ---
-
-## Setup
-
+Setup
 ```bash
 npm install
 npm run dev
@@ -62,7 +60,6 @@ src/
 ├── App.tsx
 └── main.tsx
 ```
-
 ---
 
 ## Prompts for the Exercise
@@ -176,7 +173,6 @@ Fill in after running each prompt in both projects:
 │ Total cost — full session       │                      │                      │
 └─────────────────────────────────┴──────────────────────┴──────────────────────┘
 ```
-
 ---
 
 ### Experiment Step by Step
