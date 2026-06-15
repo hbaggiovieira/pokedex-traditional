@@ -1,24 +1,24 @@
-# Pokédex — Experimento de IA sem Arquitetura Estruturada
+# Pokédex — AI Experiment without Structured Architecture
 
-> **Esta versão:** Tradicional (sem documentação para IA)
-> **Versão paralela:** `../pokedex-with-architecture/`
+> **This version:** Traditional (no AI documentation)
+> **Parallel version:** `../pokedex-with-architecture/`
 
-Este projeto faz parte de um experimento educacional baseado no artigo
+This project is part of an educational experiment based on the article
 [Architecture as Context Compression](https://medium.com/@hbaggiovieira/architecture-as-context-compression-009a671853f1).
 
-O objetivo é comparar como um agente de IA se sai ao implementar uma feature em dois projetos
-com código equivalente, mas abordagens arquiteturais opostas.
+The goal is to compare how an AI agent performs when implementing a feature in two projects
+with equivalent code but opposite architectural approaches.
 
 ---
 
-## Diferença entre os Projetos
+## Difference Between Projects
 
-| | Projeto com Arquitetura | **Esta versão** |
+| | With Architecture | **This version** |
 |---|---|---|
-| **Estrutura** | Feature-first (`src/features/`) | Por tecnologia (`src/components/`, `src/hooks/`) |
-| **Documentação de IA** | `docs/ai/*.md` + `AI_CONTEXT.md` por feature | **Nenhuma** |
-| **CLAUDE.md** | ✅ Carregado automaticamente pelo Claude Code | **❌ Ausente** |
-| **Contexto comprimido** | O agente recebe intenção, mapa e invariantes de forma declarativa | **O agente precisa inferir tudo explorando o código** |
+| **Structure** | Feature-first (`src/features/`) | By technology (`src/components/`, `src/hooks/`) |
+| **AI Documentation** | `docs/ai/*.md` + `AI_CONTEXT.md` per feature | **None** |
+| **CLAUDE.md** | ✅ Automatically loaded by Claude Code | **❌ Absent** |
+| **Compressed context** | The agent receives intent, map and invariants declaratively | **The agent must infer everything by exploring the code** |
 
 ---
 
@@ -27,187 +27,187 @@ com código equivalente, mas abordagens arquiteturais opostas.
 ```bash
 npm install
 npm run dev
-# Acesse http://localhost:5173
+# Access http://localhost:5173
 ```
 
-O app exibe uma grade dos 20 primeiros Pokémons. Clicar em um card ainda não faz nada — isso é o exercício.
+The app displays a grid of the first 20 Pokémon. Clicking a card does nothing yet — that is the exercise.
 
 ---
 
-## O Exercício
+## The Exercise
 
-Implemente a **tela de detalhes** que aparece ao clicar em um Pokémon na lista.
+Implement the **detail screen** that appears when clicking a Pokémon in the list.
 
-### O que deve ser exibido na tela de detalhes
+### What the detail screen should display
 
-- Imagem oficial do Pokémon (arte em alta resolução)
-- Nome capitalizado
-- Tipo(s) (ex: fire, water) — badges coloridos são bonus
-- Altura em **metros** (a API retorna em decímetros — divida por 10)
-- Peso em **kg** (a API retorna em hectogramas — divida por 10)
-- Estatísticas base (hp, attack, defense…) com **barras de progresso** visuais
-- Botão para voltar à lista
+- Official Pokémon image (high-resolution artwork)
+- Capitalized name
+- Type(s) (e.g.: fire, water) — colored badges are a bonus
+- Height in **meters** (the API returns decimeters — divide by 10)
+- Weight in **kg** (the API returns hectograms — divide by 10)
+- Base stats (hp, attack, defense…) with visual **progress bars**
+- Button to return to the list
 
-### Estrutura do projeto (para referência)
+### Project structure (for reference)
 
 ```
 src/
 ├── components/
-│   ├── PokemonList.tsx   ← componente da lista
+│   ├── PokemonList.tsx   ← list component
 │   └── PokemonList.css
 ├── hooks/
-│   └── usePokemonList.ts ← hook da lista
+│   └── usePokemonList.ts ← list hook
 ├── services/
-│   └── pokeapi.ts        ← chamadas à PokéAPI
+│   └── pokeapi.ts        ← PokéAPI calls
 ├── App.tsx
 └── main.tsx
 ```
 
 ---
 
-## Prompts para o Exercício
+## Prompts for the Exercise
 
-> Use estes prompts **na mesma ordem** nos dois projetos, em **sessões separadas** do agente.
-> Abra um terminal em cada pasta de projeto e execute `claude` para iniciar o Claude Code.
-
----
-
-### Prompt 1 — Implementação principal
-
-```
-Implemente a funcionalidade de tela de detalhes do Pokémon. Ao clicar em um item da lista, deve navegar para uma tela de detalhes que exibe: a imagem oficial do Pokémon, seu nome, tipos, altura em metros, peso em kg e estatísticas base com barras de progresso visuais. Inclua um botão para voltar à lista.
-```
+> Use these prompts **in the same order** in both projects, in **separate agent sessions**.
+> Open a terminal in each project folder and run `claude` to start Claude Code.
 
 ---
 
-### Prompt 2 — Cores por tipo
+### Prompt 1 — Main implementation
 
 ```
-Adicione cores de fundo diferentes nos badges de tipo do Pokémon na tela de detalhes. Cada tipo deve ter uma cor associada. Exemplos: fire = vermelho, water = azul, grass = verde, electric = amarelo, psychic = roxo, normal = cinza, poison = violeta, ground = marrom, flying = azul claro, bug = verde claro, rock = bege escuro, ghost = roxo escuro, dragon = azul escuro, dark = marrom escuro, steel = prata, fairy = rosa, fighting = laranja, ice = ciano.
+Implement the Pokémon detail screen functionality. Clicking an item in the list should navigate to a detail screen that displays: the official Pokémon image, its name, types, height in meters, weight in kg, and base stats with visual progress bars. Include a button to go back to the list.
 ```
 
 ---
 
-### Prompt 3 — Tratamento de erro
+### Prompt 2 — Type colors
 
 ```
-Adicione tratamento de erro na tela de detalhes: se a requisição à API falhar, exiba uma mensagem de erro clara com um botão "Tentar novamente" que refaz a chamada.
+Add different background colors to the Pokémon type badges on the detail screen. Each type should have an associated color. Examples: fire = red, water = blue, grass = green, electric = yellow, psychic = purple, normal = gray, poison = violet, ground = brown, flying = light blue, bug = light green, rock = dark beige, ghost = dark purple, dragon = dark blue, dark = dark brown, steel = silver, fairy = pink, fighting = orange, ice = cyan.
 ```
 
 ---
 
-## Como Monitorar o Uso de Contexto no Claude
+### Prompt 3 — Error handling
 
-Monitorar o consumo de contexto permite comparar **objetivamente** a eficiência dos dois projetos.
+```
+Add error handling to the detail screen: if the API request fails, display a clear error message with a "Try again" button that retries the call.
+```
 
-### Métricas a observar
+---
 
-#### 1. Tokens consumidos (custo da sessão)
+## How to Monitor Context Usage in Claude
 
-No Claude Code, a qualquer momento durante a sessão, execute:
+Monitoring context consumption allows you to **objectively** compare the efficiency of both projects.
+
+### Metrics to observe
+
+#### 1. Tokens consumed (session cost)
+
+In Claude Code, at any point during the session, run:
 
 ```
 /cost
 ```
 
-Isso exibe o total de tokens de input e output e o custo estimado da sessão atual.
+This shows the total input and output tokens and the estimated cost of the current session.
 
-**Quando registrar:** após cada prompt (1, 2 e 3), antes de passar para o próximo.
+**When to record:** after each prompt (1, 2, and 3), before moving to the next.
 
 ---
 
-#### 2. Explorações do codebase (ferramenta calls)
+#### 2. Codebase explorations (tool calls)
 
-Observe quantas vezes o agente usa ferramentas para *entender* o projeto antes de escrever código.
-No Claude Code, cada chamada de ferramenta aparece em tempo real no terminal com ícones:
+Observe how many times the agent uses tools to *understand* the project before writing code.
+In Claude Code, each tool call appears in real time in the terminal with icons:
 
-| Ícone/Indicador | Ferramenta | O que significa |
+| Icon/Indicator | Tool | What it means |
 |---|---|---|
-| `Read` | Leitura de arquivo | Agente está lendo um arquivo existente |
-| `Glob` | Listagem de arquivos | Agente está mapeando a estrutura |
-| `Grep` | Busca de conteúdo | Agente está procurando um símbolo/padrão |
-| `Write` / `Edit` | Escrita/edição | Agente está produzindo código |
+| `Read` | File reading | Agent is reading an existing file |
+| `Glob` | File listing | Agent is mapping the structure |
+| `Grep` | Content search | Agent is searching for a symbol/pattern |
+| `Write` / `Edit` | Writing/editing | Agent is producing code |
 
-**Anote:** quantas ferramentas de *exploração* (Read, Glob, Grep) foram usadas antes da primeira
-ferramenta de *produção* (Write, Edit).
+**Note:** how many *exploration* tools (Read, Glob, Grep) were used before the first
+*production* tool (Write, Edit).
 
 ---
 
-#### 3. Qualidade da primeira tentativa
+#### 3. First-attempt quality
 
-Após o Prompt 1, avalie o resultado sem enviar correções adicionais:
+After Prompt 1, evaluate the result without sending additional corrections:
 
-| Nota | Critério |
+| Grade | Criterion |
 |---|---|
-| ✅ Funcionou | Implementação correta na primeira tentativa, sem erros no browser |
-| ⚠️ Quase certo | 1–2 bugs menores que o agente corrigiu sozinho com uma mensagem |
-| ❌ Retrabalho | Precisou de múltiplas correções ou o resultado estava estruturalmente errado |
+| ✅ Worked | Correct implementation on the first attempt, no browser errors |
+| ⚠️ Almost right | 1–2 minor bugs the agent fixed itself with one message |
+| ❌ Rework | Required multiple corrections or the result was structurally wrong |
 
 ---
 
-#### 4. Perguntas de esclarecimento do agente
+#### 4. Agent clarification questions
 
-Anote quantas vezes o agente **perguntou** algo antes de implementar em vez de consultar o código/docs.
+Note how many times the agent **asked** something before implementing instead of consulting the code/docs.
 
-No projeto com arquitetura, o esperado é que o agente encontre as respostas nos `.md` sem precisar perguntar.
+In the project with architecture, the agent is expected to find answers in the `.md` files without needing to ask.
 
 ---
 
-### Tabela de Registro
+### Tracking Table
 
-Preencha após executar cada prompt nos dois projetos:
+Fill in after running each prompt in both projects:
 
 ```
 ┌─────────────────────────────────┬──────────────────────┬──────────────────────┐
-│ Métrica                         │ Com Arquitetura      │ Tradicional          │
+│ Metric                          │ With Architecture    │ Traditional          │
 ├─────────────────────────────────┼──────────────────────┼──────────────────────┤
-│ Tokens input — Prompt 1         │                      │                      │
-│ Tokens output — Prompt 1        │                      │                      │
-│ Custo total — Prompt 1          │                      │                      │
+│ Input tokens — Prompt 1         │                      │                      │
+│ Output tokens — Prompt 1        │                      │                      │
+│ Total cost — Prompt 1           │                      │                      │
 ├─────────────────────────────────┼──────────────────────┼──────────────────────┤
-│ Leituras de arquivo (Read/Glob) │                      │                      │
-│ Buscas (Grep)                   │                      │                      │
-│ Explorações antes de escrever   │                      │                      │
+│ File reads (Read/Glob)          │                      │                      │
+│ Searches (Grep)                 │                      │                      │
+│ Explorations before writing     │                      │                      │
 ├─────────────────────────────────┼──────────────────────┼──────────────────────┤
-│ Qualidade da 1ª tentativa       │ ✅ / ⚠️ / ❌          │ ✅ / ⚠️ / ❌          │
-│ Perguntas feitas pelo agente    │                      │                      │
-│ Seguiu a estrutura do projeto   │ Sim / Não            │ Sim / Não            │
+│ First-attempt quality           │ ✅ / ⚠️ / ❌          │ ✅ / ⚠️ / ❌          │
+│ Questions asked by the agent    │                      │                      │
+│ Followed project structure      │ Yes / No             │ Yes / No             │
 ├─────────────────────────────────┼──────────────────────┼──────────────────────┤
-│ Custo total — sessão completa   │                      │                      │
+│ Total cost — full session       │                      │                      │
 └─────────────────────────────────┴──────────────────────┴──────────────────────┘
 ```
 
 ---
 
-### Passo a Passo do Experimento
+### Experiment Step by Step
 
-1. Instale as dependências nos dois projetos (`npm install` em cada pasta)
-2. Abra **dois terminais** separados
+1. Install dependencies in both projects (`npm install` in each folder)
+2. Open **two separate terminals**
 3. **Terminal 1:** `cd pokedex-with-architecture && claude`
 4. **Terminal 2:** `cd pokedex-traditional && claude`
-5. Execute o **Prompt 1** no Terminal 1 e registre as métricas
-6. Execute o **Prompt 1** no Terminal 2 e registre as métricas
-7. Repita para Prompts 2 e 3
-8. Compare os resultados na tabela acima
+5. Run **Prompt 1** in Terminal 1 and record the metrics
+6. Run **Prompt 1** in Terminal 2 and record the metrics
+7. Repeat for Prompts 2 and 3
+8. Compare results in the table above
 
-> **Importante:** não compartilhe contexto entre as sessões.
-> Inicie cada `claude` em um terminal limpo para garantir uma comparação justa.
-
----
-
-## O que Observar Qualitativamente
-
-Além dos números, preste atenção em:
-
-- **Aderência à arquitetura:** o agente criou um componente `PokemonDetail` ou misturou tudo no `App.tsx`?
-- **Uso dos tipos existentes:** o agente reutilizou `PokemonListItem` e `PokemonDetail` de `services/pokeapi.ts`, ou redefiniu os tipos?
-- **Uso de `fetchPokemonDetail`:** o agente descobriu que a função já existia, ou reescreveu do zero?
-- **Onde criou o novo arquivo:** o agente seguiu a estrutura `components/` ou criou numa pasta diferente?
+> **Important:** do not share context between sessions.
+> Start each `claude` in a clean terminal to ensure a fair comparison.
 
 ---
 
-## Referências
+## What to Observe Qualitatively
 
-- Artigo: [Architecture as Context Compression](https://medium.com/@hbaggiovieira/architecture-as-context-compression-009a671853f1)
+Beyond the numbers, pay attention to:
+
+- **Architecture adherence:** did the agent create a `PokemonDetail` component or mix everything into `App.tsx`?
+- **Use of existing types:** did the agent reuse `PokemonListItem` and `PokemonDetail` from `services/pokeapi.ts`, or redefine the types?
+- **Use of `fetchPokemonDetail`:** did the agent discover the function already existed, or rewrite it from scratch?
+- **Where the new file was created:** did the agent follow the `components/` structure or create it in a different folder?
+
+---
+
+## References
+
+- Article: [Architecture as Context Compression](https://medium.com/@hbaggiovieira/architecture-as-context-compression-009a671853f1)
 - PokéAPI: [https://pokeapi.co](https://pokeapi.co)
 - Claude Code: [https://claude.ai/code](https://claude.ai/code)
